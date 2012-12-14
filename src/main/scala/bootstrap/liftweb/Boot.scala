@@ -19,14 +19,7 @@ class Boot {
     LiftRules.addToPackages("code")
 
     // Build SiteMap
-    val entries = List(
-      Menu.i("Welcome") / "index",
-			Menu.i("First Page") / "first",
-			Menu.i("Second Page") / "second")
-
-    // set the sitemap.  Note if you don't want access control for
-    // each page, just comment this line out.
-    LiftRules.setSiteMap(SiteMap(entries:_*))
+    LiftRules.setSiteMap(Pages.siteMap)
 
     //Show the spinny image when an Ajax call starts
     LiftRules.ajaxStart =
@@ -43,4 +36,12 @@ class Boot {
 
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
   }
+}
+
+object Pages {
+	val welcome = Menu.i("Welcome") / "index" >> Hidden >> LocGroup("nav")
+	val first = Menu.i("First Page") / "first" >> Hidden >> LocGroup("tabs")
+	val second = Menu.i("Second Page") / "second" >> Hidden >> LocGroup("tabs")
+
+	def siteMap = SiteMap(welcome, first, second)
 }
